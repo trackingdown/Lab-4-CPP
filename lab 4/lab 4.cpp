@@ -1,46 +1,43 @@
+//course: CS215-005
+//Project: Lab Assignment4
+//Date: 02/11/2015
+//Purpose: To tell the user if their 8-digit credit card number's check digit is
+//valid or invalid
+//Author: Nicholas Pfister
+
 #include <iostream>
 #include <string>
+#include <cmath>
+
 using namespace std;
 
 int main() {
-	
-	int odd_digits = 0;
 	cout << "Please enter the 8-digit credit card number: "; 
-	int user_number;
-	cin >> user_number;
+	int user_digit;
+	cin >> user_digit;
 	int sum1 = 0;
 	int sum2 = 0;
-	
-	for (int i = 1; i <= 4; i++)
+	int check_digit = user_digit % 10;
+
+	for (int i = 0; i < 8; i++)
 	{
-		sum1 += user_number % 10;
-		cout << sum1 << endl;
-		cout << user_number % 10 << endl;
-		user_number = user_number / 10;
-		odd_digits = 2 * (user_number % 10);
+		//Changes the double of pow to an integer
+		sum1 += ((user_digit / static_cast<int>(pow(10, i))) % 10);
+    i++;
+	//2 is what the odd digits need to be multiplied by in order to solve check digit
+	int odd_digits = 2 * ((user_digit / static_cast<int>(pow(10, i))) % 10);
 		odd_digits = (odd_digits % 10) + (odd_digits / 10);
 		sum2 += odd_digits;
-
-		
-
-		user_number = user_number / 10;
 	}
-	cout << user_number % 10 << endl;
-	cout << sum2 << endl;
-	cout << sum1 << endl;
 	int total_sum = 0;
 	total_sum = sum1+sum2;
 	if (total_sum % 10 == 0) {
 		cout << "Number is valid." << endl;
 	}
 	else {
-		int check_digit = (user_number%10);
 		while (total_sum % 10 != 0) {
-			cout << check_digit << endl;
 			check_digit += 1;
-			cout << check_digit << endl;
 			total_sum += 1;
-			cout << total_sum << endl;
 		}
 		cout << "Number is invalid." << endl;
 		cout << "Check digit should have been " << check_digit << endl;
